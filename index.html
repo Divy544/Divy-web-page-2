@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DIYmicro - Projects</title>
+  <meta name="description" content="DIYmicro - student projects gallery" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --orange:#ff6600;
+      --navy:#00264d;
+      --bg:#f5f7fa;
+      --card-shadow: 0 6px 18px rgba(2,20,40,0.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:'Poppins',sans-serif;
+      margin:0;background:var(--bg);color:#222;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Header */
+    header{
+      background: linear-gradient(135deg,var(--orange),var(--navy));
+      color:#fff;text-align:center;padding:3.5rem 1rem;
+    }
+    header h1{margin:0;font-size:2.6rem;font-weight:600}
+    header p.tagline{margin:0.6rem 0 1.4rem;opacity:.95}
+    .hero-btn{display:inline-block;padding:.7rem 1.4rem;background:var(--orange);color:#fff;border-radius:28px;text-decoration:none;font-weight:600}
+    nav ul{list-style:none;padding:0;margin:1.2rem 0 0;display:flex;gap:8px;justify-content:center}
+    nav a{color:#fff;text-decoration:none;padding:.45rem .9rem;border-radius:22px}
+
+    /* Sections */
+    section{padding:2.5rem 1rem;max-width:1100px;margin:0 auto}
+    h2{text-align:center;color:var(--navy);margin-bottom:1.4rem}
+
+    /* Projects grid */
+    .projects-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:1.25rem;
+    }
+    .project-card{
+      background:#fff;padding:1rem;border-radius:12px;box-shadow:var(--card-shadow);text-align:center;overflow:hidden;
+      transition:transform .25s ease;
+    }
+    .project-card:hover{transform:translateY(-6px)}
+    .project-card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+    .project-card h3{margin:.8rem 0 .4rem;font-size:1.05rem;color:var(--navy)}
+    .project-card p{font-size:.95rem;color:#444;margin:0}
+    .cta-btn{display:inline-block;margin-top:0.8rem;padding:.55rem 1rem;background:var(--orange);color:#fff;border-radius:24px;text-decoration:none;border:none;font-weight:600;cursor:pointer}
+    .cta-btn:active{transform:scale(.99)}
+
+    /* Modal (single reusable modal) */
+    .modal{
+      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+      background:rgba(0,0,0,0.55);opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease;
+      z-index:1000;padding:1rem;
+    }
+    .modal.open{opacity:1;visibility:visible}
+    .modal-content{
+      width:100%;max-width:980px;background:#fff;border-radius:12px;padding:1rem;box-shadow:0 18px 50px rgba(2,20,40,0.25);position:relative;overflow:hidden;
+    }
+    .modal-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:6px 10px}
+    .modal-header h3{margin:0;color:var(--navy)}
+    .close-btn{background:transparent;border:none;font-size:1.6rem;cursor:pointer;line-height:1;color:#333}
+
+    .modal-body{display:grid;grid-template-columns:1fr 320px;gap:1rem;padding:0 10px 14px}
+    @media (max-width:880px){ .modal-body{grid-template-columns:1fr} .modal-right{order:2} }
+
+    /* Main gallery image */
+    .gallery-main{background:#f2f5f8;border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:center}
+    .gallery-main img{width:100%;max-height:420px;object-fit:contain;border-radius:8px}
+
+    /* right column: description + thumbs */
+    .modal-right{display:flex;flex-direction:column;gap:.8rem}
+    .project-desc{font-size:.95rem;color:#333;line-height:1.4}
+    .thumbs{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+    .thumbs img{width:72px;height:56px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent}
+    .thumbs img.active{border-color:var(--orange)}
+
+    /* Controls */
+    .controls{display:flex;gap:.5rem;align-items:center;margin-top:.6rem}
+    .icon-btn{background:#00264d;color:#fff;border:none;padding:.5rem .7rem;border-radius:8px;cursor:pointer}
+    .full-link{display:inline-block;margin-left:auto;text-decoration:none;color:var(--navy);font-weight:600}
+
+    /* Footer and WhatsApp floating */
+    footer{background:var(--navy);color:#fff;text-align:center;padding:1rem;margin-top:1.8rem}
+    #whatsapp-chat{
+      position:fixed;right:18px;bottom:18px;background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;font-size:24px;text-decoration:none;box-shadow:0 8px 24px rgba(2,20,40,0.2);z-index:1200;
+    }
+
+    /* small helpers */
+    .muted{color:#666}
+    .small{font-size:.9rem}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DIYmicro</h1>
+    <p class="tagline">Build Smarter. Learn Faster.</p>
+    <a href="#projects" class="hero-btn">Explore Projects</a>
+    <nav>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>At DIYmicro we create practical projects for students: working prototypes, reports and demos across Electrical, IoT, Computer/IT and Renewable Energy.</p>
+  </section>
+
+  <section id="projects">
+    <h2>Our Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <img src="electrical.jpg" alt="Electrical project prototype" loading="lazy">
+        <h3>Electrical Projects</h3>
+        <p>Power systems, motor control, automation and more.</p>
+        <button class="cta-btn" onclick="openProject('electrical')">View More</button>
+      </div>
+
+      <div class="project-card">
+        <img src="iot.jpg" alt="IoT project with ESP32" loading="lazy">
+        <h3>IoT & Automation</h3>
+        <p>ESP32 projects, remote monitoring and dashboards.</p>
+        <button class="cta-btn" onclick="openProject('iot')">View More</button>
+      </div>
+
+      <div class="project-card">
+        <img src="computer.jpg" alt="Computer and IT student project" loading="lazy">
+        <h3>Computer / IT</h3>
+        <p>Web apps, scripts and AI mini-projects for students.</p>
+        <button class="cta-btn" onclick="openProject('computer')">View More</button>
+      </div>
+
+      <div class="project-card">
+        <img src="solar.jpg" alt="Renewable energy solar project" loading="lazy">
+        <h3>Renewable Energy</h3>
+        <p>Solar trackers, cleaning systems & energy monitoring.</p>
+        <button class="cta-btn" onclick="openProject('solar')">View More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reusable modal -->
+  <div id="projectModal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-content" role="document">
+      <div class="modal-header">
+        <h3 id="modalTitle">Project</h3>
+        <button class="close-btn" aria-label="Close" onclick="closeModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div>
+          <div class="gallery-main">
+            <img id="modalMainImage" src="" alt="Project image">
+          </div>
+
+          <div style="display:flex;gap:.5rem;margin-top:.6rem;align-items:center">
+            <button class="icon-btn" onclick="prevImage()">◀</button>
+            <button class="icon-btn" onclick="nextImage()">▶</button>
+            <a id="openFull" class="full-link" href="#" target="_blank">Open full image</a>
+          </div>
+        </div>
+
+        <aside class="modal-right">
+          <p id="modalDesc" class="project-desc">Project description goes here.</p>
+          <div class="thumbs" id="modalThumbs" aria-hidden="false"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p class="muted small">Email: <a href="mailto:info@diymicro.com">info@diymicro.com</a></p>
+    <p class="muted small">Phone / WhatsApp: <a href="https://wa.me/918799051812?text=Hello%20DIYmicro%20Team!%20I%20want%20a%20project." target="_blank">Chat on WhatsApp</a></p>
+  </section>
+
+  <footer>
+    <p>DIYmicro — Projects Made Simple.</p>
+  </footer>
+
+  <!-- Floating WhatsApp button -->
+  <a id="whatsapp-chat" href="https://wa.me/918799051812?text=Hello%20DIYmicro%20Team!%20I%20want%20a%20project." target="_blank" aria-label="Chat on WhatsApp">💬</a>
+
+  <script>
+    /* === Project data: edit filenames and text below ===
+       Make sure these image files are in the same folder as index.html.
+       Change or add images arrays if you have more photos for a project.
+    */
+    const projectData = {
+      electrical: {
+        title: 'Electrical Projects',
+        desc: 'Examples: GSM motor control, automatic load balancer, AC dimmer and renewable power monitoring. Includes circuits, PCB photos and demo videos (if any).',
+        images: ['electrical.jpg','electrical2.jpg','electrical3.jpg']
+      },
+      iot: {
+        title: 'IoT & Automation',
+        desc: 'ESP32/NodeMCU projects, Blynk dashboards, remote monitoring and SMS-controlled systems.',
+        images: ['iot.jpg','iot2.jpg','iot3.jpg']
+      },
+      computer: {
+        title: 'Computer / IT Projects',
+        desc: 'Web apps, Python scripts, basic AI demos and database projects — ready for student submission.',
+        images: ['computer.jpg','computer2.jpg','computer3.jpg']
+      },
+      solar: {
+        title: 'Renewable Energy',
+        desc: 'Solar tracking, automatic cleaning, Savonius wind-turbine monitoring and energy measurement projects.',
+        images: ['solar.jpg','solar2.jpg','solar3.jpg']
+      }
+    };
+
+    // Modal logic (reusable modal)
+    const modal = document.getElementById('projectModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalMainImage = document.getElementById('modalMainImage');
+    const modalThumbs = document.getElementById('modalThumbs');
+    const openFull = document.getElementById('openFull');
+
+    let currentGallery = [];
+    let currentIndex = 0;
+
+    function openProject(key){
+      const data = projectData[key];
+      if(!data) return;
+      modalTitle.textContent = data.title;
+      modalDesc.textContent = data.desc;
+      currentGallery = data.images.slice(); // copy
+      currentIndex = 0;
+      buildGallery();
+      showImage(0);
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    // build thumbnails
+    function buildGallery(){
+      modalThumbs.innerHTML = '';
+      currentGallery.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.loading = 'lazy';
+        img.alt = `thumb ${i+1}`;
+        img.onclick = () => showImage(i);
+        if(i === 0) img.classList.add('active');
+        modalThumbs.appendChild(img);
+      });
+    }
+
+    function showImage(index){
+      if(currentGallery.length === 0) return;
+      if(index < 0) index = currentGallery.length - 1;
+      if(index >= currentGallery.length) index = 0;
+      currentIndex = index;
+      modalMainImage.src = currentGallery[currentIndex];
+      modalMainImage.alt = modalTitle.textContent + ' image ' + (currentIndex + 1);
+      openFull.href = currentGallery[currentIndex];
+      // update active thumbnail
+      const thumbs = modalThumbs.querySelectorAll('img');
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+    }
+
+    function prevImage(){ showImage(currentIndex - 1); }
+    function nextImage(){ showImage(currentIndex + 1); }
+
+    // close if click outside modal-content
+    modal.addEventListener('click', (e) => {
+      if(e.target === modal) closeModal();
+    });
+
+    // keyboard support
+    document.addEventListener('keydown', (e) => {
+      if(!modal.classList.contains('open')) return;
+      if(e.key === 'Escape') closeModal();
+      if(e.key === 'ArrowLeft') prevImage();
+      if(e.key === 'ArrowRight') nextImage();
+    });
+
+    // Accessibility: if images fail to load, hide modal gracefully
+    modalMainImage.addEventListener('error', () => {
+      modalMainImage.alt = 'Image not found';
+    });
+  </script>
+</body>
+</html>
